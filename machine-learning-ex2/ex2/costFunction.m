@@ -20,18 +20,19 @@ grad = zeros(size(theta));
 % Note: grad should have the same dimensions as theta
 %
 
-%thetaTransposeX = X * theta;
-%hThetaX = (1 / (1 + exp(-thetaTransposeX)));
+thetaTransposeX = X * theta;
+sigmoidThetaX = sigmoid(thetaTransposeX);
 
 % Calculate cost function:
-%%%%% J = sum(y * log(hThetaX) + (1 - y) * log(1 - hThetaX));
-%%%%% J = J * -(1/m);
 
-%GOOOD !!  J = (1/m) * (-1 * y' * log(hThetaX) - (1 - y)' * log(1 - hThetaX));
+J = (1/m) * (-y' * log(sigmoidThetaX) - (1 - y)' * log(1 - sigmoidThetaX));
+
+
+theta
 
 % calculate grad:
-%sum2 = 0;
-%summer = sum((hThetaX - y) * X);
+%summer = 0;
+%summer = sum((sigmoidThetaX - y) * X);
 %grad = (1/m) * summer;
 
 
