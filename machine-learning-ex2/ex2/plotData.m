@@ -12,25 +12,11 @@ figure; hold on;
 %               examples and 'ko' for the negative examples.
 %
 
-c = '';
-yind = 1;
-for ind = 1:columns(X) * rows(X)
-  if ind > rows(X)
-    yind = 1;
-  else
-    yind = ind;
-  end;
-  
-  if y(yind) == 0
-    c = 'ko';
-  else
-    c = 'k+';
-  end
-  plot(X(ind), y(yind), c); % Plot the data
-  hold on
-end;
-
-
+% Find Indices of Positive and Negative Examples
+pos = find(y==1); neg = find(y == 0);
+% Plot Examples
+plot(X(pos, 1), X(pos, 2), 'k+','LineWidth', 2, 'MarkerSize', 7);
+plot(X(neg, 1), X(neg, 2), 'ko', 'MarkerFaceColor', 'y', 'MarkerSize', 7);
 
 
 % =========================================================================
