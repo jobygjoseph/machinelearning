@@ -29,15 +29,11 @@ J = (1/m) * (-y' * log(sigmoidThetaX) - (1 - y)' * log(1 - sigmoidThetaX));
 
 
 % calculate grad:
-%summer = 0;
 grad = zeros(size(theta));
 for ind = 1:length(theta)
   grad(ind) = grad(ind) - (-1/m) * sum((sigmoidThetaX - y)' * X(:,ind));
 end;
 
-%for ind = 1:m
-  
-%end;
 
 % =============================================================
 
