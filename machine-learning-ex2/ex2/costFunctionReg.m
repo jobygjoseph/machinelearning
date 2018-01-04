@@ -28,9 +28,9 @@ J = (1/m) * (-y' * log(sigmoidThetaX) - (1 - y)' * log(1 - sigmoidThetaX)) + (la
 grad = zeros(size(theta));
 for ind = 1:length(theta)
   if (ind == 1)
-    grad(ind) = grad(ind) - (-1/m) * sum((sigmoidThetaX - y)' * X(:,ind));
+    grad(ind) = (1/m) * sum((sigmoidThetaX - y)' * X(:,ind));
   else
-    grad(ind) = grad(ind) - ((-1/m) * sum((sigmoidThetaX - y)' * X(:,ind)) + (lambda / m) * grad(ind));
+    grad(ind) = ((1/m) * sum((sigmoidThetaX - y)' * X(:,ind))) - ((lambda / m) * grad(ind));
 end;
 
 
