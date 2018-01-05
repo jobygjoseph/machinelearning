@@ -49,16 +49,12 @@ J = (1/m) * (-y' * log(sigmoidThetaX) - (1 - y)' * log(1 - sigmoidThetaX)) + (la
 
 
 % calculate grad:
-%grad = zeros(size(theta));
-%for ind = 1:length(theta)
-%  grad(ind) = grad(ind) - (-1/m) * sum((sigmoidThetaX - y)' * X(:,ind));
-%end;
+%grad = theta - (1/m) * X' * (sigmoidThetaX - y);
 
-
-
-
-
-
+grad = ((1/m) * X' * (sigmoidThetaX - y));
+tempTheta = theta;
+tempTheta(1) = 0;
+grad = grad + ((lambda / m) * tempTheta);
 
 % =============================================================
 
