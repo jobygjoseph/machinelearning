@@ -40,6 +40,21 @@ grad = zeros(size(theta));
 
 
 
+thetaTransposeX = X * theta;
+sigmoidThetaX = sigmoid(thetaTransposeX);
+
+% Calculate cost function:
+
+J = (1/m) * (-y' * log(sigmoidThetaX) - (1 - y)' * log(1 - sigmoidThetaX)) + (lambda / (2*m)) * sum(theta(2:end) .^ 2);
+
+
+% calculate grad:
+%grad = zeros(size(theta));
+%for ind = 1:length(theta)
+%  grad(ind) = grad(ind) - (-1/m) * sum((sigmoidThetaX - y)' * X(:,ind));
+%end;
+
+
 
 
 
