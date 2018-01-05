@@ -30,7 +30,7 @@ for ind = 1:length(theta)
   if (ind == 1)
     grad(ind) = (1/m) * sum((sigmoidThetaX - y)' * X(:,ind));
   else
-    grad(ind) = ((1/m) * sum((sigmoidThetaX - y)' * X(:,ind))) - ((lambda / m) * grad(ind));
+    grad(ind) = ((1/m) * sum((sigmoidThetaX - y)' * X(:,ind))) - ((lambda / m) * theta(ind));
 end;
 
 
