@@ -49,16 +49,14 @@ X = [ones(m, 1) X];
 %                 initial_theta, options);
 %
 
-
-
-
-
-
-
-
-
-
-
+% all_theta is 10 x 401 dimensional matrix
+% theta returned from fmincg should be a 401 x 1 matrix
+initial_theta = zeros(n + 1, 1);
+options = optimset('GradObj', 'on', 'MaxIter', 50);
+for c = 1:num_labels
+  [theta, grad] = fmincg (@(t)(lrCostFunction(t, X, (y == c), lambda)), initial_theta, options);
+  all_theta(c, :) = theta(:);
+end;
 
 % =========================================================================
 
