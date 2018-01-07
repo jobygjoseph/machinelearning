@@ -8,6 +8,10 @@ function p = predictOneVsAll(all_theta, X)
 %  of values from 1..K (e.g., p = [1; 3; 1; 2] predicts classes 1, 3, 1, 2
 %  for 4 examples) 
 
+
+% all_theta is a 10 x 401 dimensional matrix
+% X is some crazy big matrix (5000x401) *401 columns after adding the ones as the first column
+
 m = size(X, 1);
 num_labels = size(all_theta, 1);
 
@@ -30,10 +34,13 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
-
-
-
-
+%keyboard
+%sigmoid(X * all_theta(9,:)')
+mPlusOne = size(X, 1);
+for ind = 1:mPlusOne
+  [x, ix] = max(all_theta * X(ind, :)');
+  p(ind) = ix;
+end;
 
 
 % =========================================================================
