@@ -21,13 +21,26 @@ p = zeros(size(X, 1), 1);
 %       can use max(A, [], 2) to obtain the max for each row.
 %
 
+% Theta1 is a 25 x 401 matrix
+% Theta2 is a 10 x 26 matrix
+% X is a 5000 x 401 matrix 
+
+% Add ones to the X data matrix
+X = [ones(m, 1) X];
 
 
+z2 = Theta1 * X';
+a2 = sigmoid(z2);
 
+% keyboard
+a2m = size(a2', 1);
 
+a2 = [ones(a2m, 1) a2'];
 
+z3 = Theta2 * a2';
+a3 = sigmoid(z3);
 
-
+p = max(a3, [], 1);
 
 % =========================================================================
 
