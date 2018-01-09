@@ -63,12 +63,40 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 
+% keyboard
 
+% m = 5000
+% X has a size of 5000x400 (will be 5000x401 after adding a column of ones)
+% y has a size of 5000x1
+% nn_params has a size of 10285x1
+% Theta1 has size 25 x 401
+% Theta2 has size 10 x 26
 
+% a1 is probably going to be a 1x401;
+% a2 is probably going to be a 26x1
+% a3 is probably going to be a 10x1
 
+% input_layer_size = 400
+% hidden_layer_size = 25
+% num_labels = 10
+% lambda = 0
 
+X = [ones(m, 1) X];
 
+for k = 1:num_labels
+  a1 = X(i,:);
+  z2 = Theta1 * a1';
+  a2 = sigmoid(z2);
+  a2 = [ones(1, columns(a2)); a2];
+  z3 = Theta2 * a2;
+  a3 = sigmoid(z3);
+  hThetaX = a3;
+  J(k) = (-y * log(hThetaX) - (1 - y) * log(1 - hThetaX));  
+end;
 
+keyboard
+
+J = J * (1/m);
 
 
 
