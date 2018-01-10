@@ -81,24 +81,23 @@ Theta2_grad = zeros(size(Theta2));
 % num_labels = 10
 % lambda = 0
 
-X = [ones(m, 1) X];
-
-for k = 1:num_labels
+function hOfXi = hOfX(i)
   a1 = X(i,:);
+  a1 = [1 a1];
   z2 = Theta1 * a1';
   a2 = sigmoid(z2);
   a2 = [ones(1, columns(a2)); a2];
   z3 = Theta2 * a2;
   a3 = sigmoid(z3);
-  hThetaX = a3;
-  J(k) = (-y * log(hThetaX) - (1 - y) * log(1 - hThetaX));  
+  hOfXi = a3;
 end;
 
-keyboard
+%J = J * (1/m);
 
-J = J * (1/m);
-
-
+for i = 1:m
+  hThetaX = hOfX(i);
+  J = J + ((1/m) * (-y(i) * log(hThetaX) - (1 - y(i)) * log(1 - hThetaX)));
+end;
 
 
 
