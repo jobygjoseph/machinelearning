@@ -98,7 +98,9 @@ z3 = a2 * Theta2';
 hThetaX = a3 = sigmoid(z3);
 J = ((1/m) * sum(sum(-Y .* log(hThetaX) - (1 - Y) .* log(1 - hThetaX))));  
 
+regTerm = (lambda/(2*m))*(sum(sum(Theta1(:, 2:end).^2)) + sum(sum(Theta2(:,2:end).^2)));
 
+J = J + regTerm;
 
 
 
