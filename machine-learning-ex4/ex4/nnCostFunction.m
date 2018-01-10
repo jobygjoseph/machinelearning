@@ -81,7 +81,8 @@ Theta2_grad = zeros(size(Theta2));
 % num_labels = 10
 % lambda = 0
 
-
+% For the purpose of training a neural network, 
+% we need to recode the labels as vectors containing only values 0 or 1
 I = eye(num_labels);
 Y = zeros(m, num_labels);
 for i = 1:m
