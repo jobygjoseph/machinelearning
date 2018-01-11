@@ -81,14 +81,21 @@ Theta2_grad = zeros(size(Theta2));
 % num_labels = 10
 % lambda = 0
 
+delta3 = 0;
+
 % For the purpose of training a neural network, 
 % we need to recode the labels as vectors containing only values 0 or 1
+% In other words
 I = eye(num_labels);
 Y = zeros(m, num_labels);
 for i = 1:m
   Y(i, :) = I(y(i), :);
 end
 
+% 1) Randomly initialize the weights
+
+
+% 2) Implement forward propagation to get h theta of X for any x(i)
 a1 = X;
 a1 = [ones(m, 1) a1];
 z2 = a1 * Theta1';
@@ -96,13 +103,31 @@ a2 = sigmoid(z2);
 a2 = [ones(size(a2, 1), 1) a2];
 z3 = a2 * Theta2';
 hThetaX = a3 = sigmoid(z3);
+
+% 3) Implement the cost function
 J = ((1/m) * sum(sum(-Y .* log(hThetaX) - (1 - Y) .* log(1 - hThetaX))));  
 
+% 3a) with regularization
 regTerm = (lambda/(2*m))*(sum(sum(Theta1(:, 2:end).^2)) + sum(sum(Theta2(:,2:end).^2)));
-
 J = J + regTerm;
 
+% 4) Implment backpropagation to compute the partial derivatives.
+for t = 1:m
+  delta3 = delta3 + (a3 - Y(t));
+end;
+%delta3 = a3 - Y;
+% nnCostFunction: operator *: nonconformant arguments (op1 is 26x10, op2 is 5000x10)
+delta2 = (delta3 * Theta2) .* a2 .* (1 - a2);
 
+capitalDelta1 = sum(delta2' * a1);
+capitalDelta2 = sum(delta3' * a2);
+
+Theta1_grad = (1/m) * (delta2' * a1);
+Theta2_grad = (1/m) * (delta3' * a2);
+
+% 5) Use gradient checking to confirm that your backpropagation works.  Then disable graident checking.
+
+% 6) Use gradient descent or a built-in optimization function to minimize the cost function with the weights in theta.
 
 % -------------------------------------------------------------
 
