@@ -82,6 +82,8 @@ Theta2_grad = zeros(size(Theta2));
 % lambda = 0
 
 delta3 = 0;
+capitalDelta1 = 0;
+capitalDelta2 = 0;
 
 % For the purpose of training a neural network, 
 % we need to recode the labels as vectors containing only values 0 or 1
@@ -113,17 +115,42 @@ J = J + regTerm;
 
 % 4) Implment backpropagation to compute the partial derivatives.
 for t = 1:m
-  delta3 = delta3 + (a3 - Y(t));
+  A1 = X(t,:);
+  A1 = [1 A1];
+  Z2 = A1 * Theta1';
+  A2 = sigmoid(Z2);
+  A2 = [1 A2];
+  Z3 = A2 * Theta2';
+  A3 = sigmoid(Z3);
+  delta3 = delta3 + (A3 - Y(t,:));
+  delta2 = (delta3 * Theta2) .* (A2 .* (1 - A2));
+  delta2 = delta2(2:end);
+  capitalDelta1 = capitalDelta1 + delta2' * A1;
+  capitalDelta2 = capitalDelta2 + delta3' * A2;
+  %keyboard
 end;
-%delta3 = a3 - Y;
-% nnCostFunction: operator *: nonconformant arguments (op1 is 26x10, op2 is 5000x10)
-delta2 = (delta3 * Theta2) .* a2 .* (1 - a2);
 
-capitalDelta1 = sum(delta2' * a1);
-capitalDelta2 = sum(delta3' * a2);
+%disp('Are the aONes the same?');
+%a1 == A1
 
-Theta1_grad = (1/m) * (delta2' * a1);
-Theta2_grad = (1/m) * (delta3' * a2);
+%disp('Are the aTwos the same?');
+%a2 == A2
+
+%disp('Are the aThrees the same?');
+%a3 == A3
+
+% =========================== [START] NO LOOP =======================%
+%delta2 = (delta3 * Theta2) .* (a2 .* (1 - a2));
+%delta2 = delta2(:,2:end);
+
+%capitalDelta1 = delta2' * a1;
+%capitalDelta2 = delta3' * a2;
+% =========================== [END] NO LOOP =======================%
+
+
+Theta1_grad = (1/m) * capitalDelta1;
+Theta2_grad = (1/m) * capitalDelta2;
+
 
 % 5) Use gradient checking to confirm that your backpropagation works.  Then disable graident checking.
 
@@ -135,6 +162,5 @@ Theta2_grad = (1/m) * (delta3' * a2);
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
-
-
+%keyboard
 end
