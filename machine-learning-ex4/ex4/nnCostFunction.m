@@ -146,6 +146,8 @@ end;
 %capitalDelta1 = delta2' * a1;
 %capitalDelta2 = delta3' * a2;
 % =========================== [END] NO LOOP =======================%
+Theta1(:,1) = zeros(rows(Theta1), 1);
+Theta2(:,1) = zeros(rows(Theta2), 1);
 
 Theta1_grad = (1/m) * capitalDelta1 + (lambda / m) * Theta1;
 Theta2_grad = (1/m) * capitalDelta2 + (lambda / m) * Theta2;
