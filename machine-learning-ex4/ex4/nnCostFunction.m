@@ -115,18 +115,18 @@ J = J + regTerm;
 
 % 4) Implment backpropagation to compute the partial derivatives.
 for t = 1:m
-  A1 = X(t,:);
-  A1 = [1 A1];
-  Z2 = A1 * Theta1';
+  A1 = X(t,:)';
+  A1 = [1;A1];
+  Z2 = Theta1 * A1;
   A2 = sigmoid(Z2);
-  A2 = [1 A2];
-  Z3 = A2 * Theta2';
+  A2 = [1;A2];
+  Z3 = Theta2 * A2;
   A3 = sigmoid(Z3);
-  delta3 = delta3 + (A3 - Y(t,:));
-  delta2 = (delta3 * Theta2) .* (A2 .* (1 - A2));
+  delta3 = delta3 + (A3 - Y(t,:)');
+  delta2 = (Theta2' * delta3) .* (A2 .* (1 - A2));
   delta2 = delta2(2:end);
-  capitalDelta1 = capitalDelta1 + delta2' * A1;
-  capitalDelta2 = capitalDelta2 + delta3' * A2;
+  capitalDelta1 = capitalDelta1 + delta2 * A1';
+  capitalDelta2 = capitalDelta2 + delta3 * A2';
   %keyboard
 end;
 
@@ -147,10 +147,8 @@ end;
 %capitalDelta2 = delta3' * a2;
 % =========================== [END] NO LOOP =======================%
 
-
-Theta1_grad = (1/m) * capitalDelta1;
-Theta2_grad = (1/m) * capitalDelta2;
-
+Theta1_grad = (1/m) * capitalDelta1 + (lambda / m) * Theta1;
+Theta2_grad = (1/m) * capitalDelta2 + (lambda / m) * Theta2;
 
 % 5) Use gradient checking to confirm that your backpropagation works.  Then disable graident checking.
 
