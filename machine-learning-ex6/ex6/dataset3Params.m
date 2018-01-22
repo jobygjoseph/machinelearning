@@ -23,11 +23,27 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
+model = struct ();
+predictions = struct ();
+meaners = [];
+Ctest = [0.01; 0.03; 0.1; 0.3; 1; 3; 10; 30];
+sigmaTest = [0.01; 0.03; 0.1; 0.3; 1; 3; 10; 30];
+meanCount = 1;
+tempMean = 5;
 
-
-
-
-
+for cIndex = 1:length(Ctest)
+  for sIndex = 1:length(sigmaTest)
+    model = svmTrain(Xval, yval, Ctest(cIndex), @(x1, x2) gaussianKernel(x1, x2, sigmaTest(sIndex)));
+    predictions = svmPredict(model, Xval);
+    meaners(meanCount) = mean(double(predictions ~= yval));
+    if (meaners(meanCount) < tempMean)
+      C = Ctest(cIndex);
+      sigma = sigmaTest(sIndex);
+      tempMean = meaners(meanCount);
+    end;
+    meanCount += 1;
+  end;
+end;
 
 % =========================================================================
 
