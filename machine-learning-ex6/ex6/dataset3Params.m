@@ -23,28 +23,32 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
-model = struct ();
-predictions = struct ();
-meaners = [];
+model = struct();
+predictions = [];
+C_sigma_error = [];
 Ctest = [0.01; 0.03; 0.1; 0.3; 1; 3; 10; 30];
 sigmaTest = [0.01; 0.03; 0.1; 0.3; 1; 3; 10; 30];
-meanCount = 1;
-tempMean = 5;
 
 for cIndex = 1:length(Ctest)
-  for sIndex = 1:length(sigmaTest)
-    model = svmTrain(Xval, yval, Ctest(cIndex), @(x1, x2) gaussianKernel(x1, x2, sigmaTest(sIndex)));
+  Cee = Ctest(cIndex);
+  for sIndex = 1:length(sigmaTest) 
+    sig = sigmaTest(sIndex);
+    model = svmTrain(Xval, yval, Cee, @(x1, x2) gaussianKernel(x1, x2, sig));
     predictions = svmPredict(model, Xval);
-    meaners(meanCount) = mean(double(predictions ~= yval));
-    if (meaners(meanCount) < tempMean)
-      C = Ctest(cIndex);
-      sigma = sigmaTest(sIndex);
-      tempMean = meaners(meanCount);
-    end;
-    meanCount += 1;
+    error = mean(double(predictions ~= yval));
+    C_sigma_error = [C_sigma_error; Cee sig error];
   end;
 end;
 
+[w, iw] = min(C_sigma_error, [], 1);
+C_sigma = C_sigma_error(iw(3), :);
+C = C_sigma(1);
+sigma = C_sigma(2);
+
+disp('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+C_sigma_error
+C 
+sigma
 % =========================================================================
 
 end
