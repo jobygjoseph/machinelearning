@@ -21,11 +21,24 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
+% idx size is 300x1
+% X size is 300x2 (test uses 15x11)
+% centroids size is 3x2 (test uses 5x11)
+% centroids =
+%   3   3
+%   6   2
+%   8   5
+%
 
+xSize = size(X, 1);
+cSize = size(centroids, 1);
+distance = zeros(xSize, cSize);
 
+for i = 1:cSize
+  distance(:,i) = sum(bsxfun(@minus, X, centroids(i, :)) .^ 2, 2);
+end;
 
-
-
+[w, idx] = min(distance, [], 2);
 
 % =============================================================
 
