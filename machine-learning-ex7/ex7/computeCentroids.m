@@ -26,11 +26,17 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
+% X size is 300x2
+% idx size is 300x1
+% K = 3
+% centroids is 3x2
 
-
-
-
-
+for i = 1:K
+  xpos = 0;
+  xpos = find(idx == i);
+  foundClusterCount = rows(xpos);
+  centroids(i, :) = sum(X(xpos, :)) ./ foundClusterCount;
+end;
 
 
 % =============================================================
