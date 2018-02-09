@@ -75,6 +75,9 @@ XRegularized = (lambda/2) * sum(sum(X.^2));
 J = J + ThetaRegularized + XRegularized;
 
 
+X_grad = X_grad + lambda*X;
+Theta_grad = Theta_grad + lambda*Theta;
+
 % =============================================================
 
 grad = [X_grad(:); Theta_grad(:)];
