@@ -40,13 +40,30 @@ Theta_grad = zeros(size(Theta));
 %                     partial derivatives w.r.t. to each element of Theta
 %
 
-keyboard
+% X is 5x3 matrix : a matrix of movie features (0 to 5): Dimensions are (movies x features)
+% Theta is a 4x3 matrix : a matrix of feature weights: Dimensions are (users x features)
+% R is a 5x4 matrix : a matrix of observations (binary values). Dimensions are (movies x users)
+% Y is a 5 x 4 : a matrix of movie ratings: Dimensions are (movies x users)
 
-J = (1/2) * sum((Theta(R(:)==1) * X(R(:)==1)' - Y(R==1)) ^ 2);
 
 
+%%J = (1/2) * sum((Theta(R(:)==1) * X(R(:)==1)' - Y(R==1)) ^ 2);
 
+predictedMovieRatings = X * Theta'; % Dimensions of the result should be (movies x users):5x4.
+movieRatingError = predictedMovieRatings - Y; % 5x4
+errorFactor = movieRatingError .* R; % Dimensions of the result should be (movies x users):5x5.
 
+%for i = 1:rows(R)
+%  for j = 1:columns(R)
+%    if (R(i,j) == 1)
+%      J = J + (ThetaX - Y(i,j)) .^ 2;
+%    end;
+%  end;
+%end;
+
+J = (1/2) * sum(sum(errorFactor .^ 2));
+
+% J = J / 2;
 
 
 
