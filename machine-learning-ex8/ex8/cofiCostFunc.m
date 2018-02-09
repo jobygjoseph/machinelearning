@@ -68,7 +68,11 @@ J = (1/2) * sum(sum(errorFactor .^ 2));
 X_grad = errorFactor * Theta;
 Theta_grad = errorFactor' * X;
 
+ThetaRegularized = (lambda/2) * sum(sum(Theta.^2));
 
+XRegularized = (lambda/2) * sum(sum(X.^2));
+
+J = J + ThetaRegularized + XRegularized;
 
 
 % =============================================================
