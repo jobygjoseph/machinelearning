@@ -65,8 +65,8 @@ J = (1/2) * sum(sum(errorFactor .^ 2));
 
 % J = J / 2;
 
-
-
+X_grad = errorFactor * Theta;
+Theta_grad = errorFactor' * X;
 
 
 
